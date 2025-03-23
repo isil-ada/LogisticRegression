@@ -76,5 +76,5 @@ Her iki modelin doğruluğu (accuracy) ve hata analizi için **confusion matrix*
 - **Daha güçlü modeller (Random Forest gibi) ile kıyaslama yapılabilir.**
 - **Precision ve Recall hesaplanarak modelin dengesiz veri setlerinde performansı test edilebilir.**
 
-**Bu proje, kredi risk analizlerinde lojistik regresyonun nasıl kullanılabileceğini göstermektedir!**
+**Bu proje, bankaların kredi risk analizlerinde lojistik regresyonun nasıl kullanılabileceğini göstermektedir!**
 
