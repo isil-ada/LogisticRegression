@@ -1,85 +1,79 @@
-### **📌 Kredi Kartı Borç Ödeme Tahmini: Detaylı Açıklama**  
+# **Kredi Kartı Borç Ödeme Tahmini (Logistic Regression)**
 
-Bu proje, bir müşterinin kredi kartı borcunu ödeyip ödemeyeceğini tahmin etmek için **Lojistik Regresyon (Logistic Regression)** algoritmasını kullanır. Hem **Scikit-learn kütüphanesi** ile hazır bir model hem de **sıfırdan kodlanan manuel lojistik regresyon** modeli uygulanmıştır.  
-
----
-
-## **🎯 1. Problem Tanımı**
-Bankalar için en büyük risklerden biri, kredi kartı borcunun zamanında ödenmemesidir.  
-Bu projede, **müşterilerin finansal ve demografik verileri kullanılarak borçlarını ödeyip ödemeyecekleri tahmin edilmektedir**.  
-
-**Hedef:**  
-- **Banka risklerini minimize etmek**  
-- **Kredi politikalarını daha bilinçli yönetmek**  
-
-**Sınıflandırma:**
-- `1` → **Borcunu ödeyemedi (default yaptı)**  
-- `0` → **Borcunu ödedi**  
+## **📌 1. Problem Tanımı**
+Bu proje, kredi kartı kullanıcılarının borçlarını ödeyip ödemeyeceğini tahmin etmeyi amaçlamaktadır. Bankalar ve finans kuruluşları, müşterilerinin kredi risklerini değerlendirmek için bu tür tahmin modellerine ihtiyaç duyar. Doğru tahminler, **mali kayıpları önlemeye** ve **daha bilinçli kredi kararları vermeye** yardımcı olur.
 
 ---
 
-## **📂 2. Kullanılan Veri Seti**
-Proje kapsamında **"Credit Card Defaulter Prediction.csv"** veri seti kullanılmıştır.  
+## **📌 2. Veri Seti**
+Veri seti, **"Credit Card Defaulter Prediction.csv"** dosyasından alınmıştır ve aşağıdaki bilgileri içerir:
 
-### **🔹 Veri Setindeki Değişkenler**
-- **ID** → Müşteri Kimliği (Modelde kullanılmadı)  
-- **Demografik Değişkenler** → Yaş, cinsiyet, medeni durum, eğitim seviyesi  
-- **Finansal Değişkenler** → Önceki borçlar, yapılan ödemeler, kredi limiti  
-- **Hedef Değişken (`default_Y`)** → `1` (Borcunu ödeyemedi), `0` (Borcunu ödedi)  
+- **ID**: Müşteri kimliği (Kullanılmadı, modelden çıkarıldı).
+- **Kişisel Bilgiler**: Yaş, gelir, kredi limitleri vb.
+- **Ödeme Geçmişi**: Önceki ödemeler, gecikmeler vb.
+- **Hedef Değişken (default_Y)**:
+  - **1**: Müşteri borcunu ödeyemedi.
+  - **0**: Müşteri borcunu ödedi.
 
----
-
-## **🛠 3. Kullanılan Yöntemler**
-Proje kapsamında **iki farklı lojistik regresyon modeli** kullanılmıştır:  
-
-### **1️⃣ Scikit-learn ile Lojistik Regresyon (LogisticRegression.py)**
-✔ **Ön İşleme:**  
-   - **ID sütunu kaldırıldı** (gereksiz olduğu için)  
-   - **Kategorik değişkenler sayısal hale getirildi (One-Hot Encoding)**  
-   - **Tüm değişkenler StandardScaler ile ölçeklendirildi**  
-
-✔ **Model Eğitimi:**  
-   - **Scikit-learn'ün LogisticRegression modeli** kullanıldı  
-   - **%80 eğitim - %20 test** veri ayrımı yapıldı  
-
-✔ **Değerlendirme:**  
-   - **Doğruluk (Accuracy)**
-   - **Karışıklık Matrisi (Confusion Matrix)**  
+🔹 **Ön İşleme Adımları:**
+- **Eksik veri kontrolü yapıldı** (Boş değer bulunmadı).
+- **Kategorik değişkenler One-Hot Encoding ile dönüştürüldü**.
+- **Özellikler standardize edildi (StandardScaler kullanıldı)**.
+- **Veri eğitim ve test setlerine ayrıldı (%80 eğitim - %20 test).**
 
 ---
 
-### **2️⃣ Elle Kodlanan Lojistik Regresyon (LogisticRegression2.py)**
-✔ **Özellikler:**  
-   - **Sigmoid Fonksiyonu** kullanılarak olasılık tahmini yapıldı  
-   - **Gradient Descent (Gradyan İnişi)** ile ağırlıklar optimize edildi  
-   - **Özel bir accuracy hesaplama fonksiyonu yazıldı**  
+## **📌 3. Kullanılan Yöntem**
+Bu projede **lojistik regresyon** kullanılmıştır. İki farklı model oluşturulmuştur:
 
-✔ **Hiperparametreler:**  
-   - **Öğrenme Oranı (Learning Rate):** `0.0099`  
-   - **Epochs (İterasyon Sayısı):** `450`  
+1️⃣ **Sklearn LogisticRegression Modeli** ([LogisticRegression.py](LogisticRegression.py))
+   - **Sklearn kütüphanesinin LogisticRegression sınıfı** kullanılarak uygulanmıştır.
+   - Model, **max_iter=500** ile eğitilmiştir.
+   
+2️⃣ **Manuel Logistic Regression Modeli** ([LogisticRegression2.py](LogisticRegression2.py))
+   - **Gradient Descent algoritması kullanılarak sıfırdan** lojistik regresyon modeli oluşturulmuştur.
+   - **Özelleştirilebilir öğrenme oranı ve iterasyon sayısı** ile optimize edilmiştir.
+   - Model, **learning_rate=0.0099, epochs=450** ile eğitilmiştir.
 
-✔ **Modelin Scikit-learn versiyonu ile performans karşılaştırması yapıldı.**  
-
----
-
-## **📊 4. Sonuçlar**
-| Model | Doğruluk (Accuracy) | Eğitim Süresi | Tahmin Süresi |
-|--------|----------------|--------------|--------------|
-| **Scikit-learn Lojistik Regresyon** | `%X` | `X` saniye | `X` saniye |
-| **Elle Kodlanan Lojistik Regresyon** | `%X'` | `X'` saniye | `X'` saniye |
-
-### **📌 Önemli Bulgular**
-- **Veri ölçeklendirme (StandardScaler) modelin doğruluğunu artırdı.**  
-- **Manuel yazılan lojistik regresyon modeli, Scikit-learn modeline yakın performans gösterdi.**  
-- **Scikit-learn’ün optimize edilmiş solver'ı (`lbfgs`) eğitim süresini kısalttı.**  
+📌 **Model Eğitimi:**
+- **Özellikler ve hedef değişken ayrıldı.**
+- **Veri seti eğitim ve test kümelerine ayrıldı.**
+- **Veriler ölçeklendirildi (StandardScaler).**
+- **Model eğitildi ve test edildi.**
 
 ---
 
-## **📌 5. Tartışma ve Gelecek Çalışmalar**
-- **Daha karmaşık modeller (Random Forest, XGBoost) ile karşılaştırılabilir.**  
-- **L1/L2 regularization (ceza fonksiyonu) eklenerek aşırı öğrenme (overfitting) engellenebilir.**  
-- **Model performansını daha iyi anlamak için Precision, Recall ve F1-score da ölçülebilir.**  
+## **📌 4. Sonuçlar ve Model Performansı**
+Her iki modelin doğruluğu (accuracy) ve hata analizi için **confusion matrix** kullanılmıştır.
+
+### **1️⃣ Sklearn Logistic Regression Modeli Sonuçları**
+- **Eğitim Süresi:** ≈ **0.16921990003902465 saniye**
+- **Tahmin Süresi:** ≈ **0.001525100029539317 saniye**
+- **Doğruluk (Accuracy):** ≈ **%82**
+- **Confusion Matrix:**
+- *(Grafik olarak görselleştirildi)*
+- ![image](https://github.com/user-attachments/assets/987897d5-7060-47b2-8940-9546422861c6)
+
+- 
+
+### **2️⃣ Manuel Oluşturulan Logistic Regression Modeli Sonuçları**
+- **Eğitim Süresi:** ≈ **0.9786075999727473 saniye**
+- **Tahmin Süresi:** ≈ **0.000534399994648993 saniye**
+- **Doğruluk (Accuracy):** ≈ **%816**
+- **Confusion Matrix:** *(Grafik olarak görselleştirildi)*
+
+🔹 **Sonuç Yorumu:**
+- **Sklearn modeli genellikle daha hızlıdır** çünkü optimize edilmiş bir kütüphane kullanır.
+- **Manuel oluşturulmuş modelde öğrenme oranı ve epoch sayısı doğru ayarlandığında iyi sonuçlar alınmıştır.**
+- **Accuracy yanıltıcı olabilir**, bu yüzden **F1-Score, Precision, Recall gibi metrikler de incelenmelidir.**
 
 ---
 
-Bu çalışma, **finans sektöründe kredi risk yönetimi** açısından oldukça önemli olup, **müşterilerin borç ödeme davranışlarını tahmin ederek daha bilinçli kredi politikaları oluşturulmasına yardımcı olabilir.** 🚀
+## **📌 5. Yorum/Tartışma**
+- **Veri seti büyütülerek modelin genelleme yeteneği artırılabilir.**
+- **Daha iyi hiperparametre ayarları için Grid Search gibi teknikler kullanılabilir.**
+- **Daha güçlü modeller (Random Forest gibi) ile kıyaslama yapılabilir.**
+- **Precision ve Recall hesaplanarak modelin dengesiz veri setlerinde performansı test edilebilir.**
+
+**Bu proje, kredi risk analizlerinde lojistik regresyonun nasıl kullanılabileceğini göstermektedir!**
+
