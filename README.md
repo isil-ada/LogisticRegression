@@ -51,7 +51,7 @@ Her iki modelin doğruluğu (accuracy) ve hata analizi için **confusion matrix*
 - **Tahmin Süresi:** ≈ **0.001525100029539317 saniye**
 - **Doğruluk (Accuracy):** ≈ **%82**
 - **Confusion Matrix:**
-- *(Grafik olarak görselleştirildi)*
+  
  ![image](https://github.com/user-attachments/assets/987897d5-7060-47b2-8940-9546422861c6)
 
 ### **2️⃣ Manuel Oluşturulan Logistic Regression Modeli Sonuçları**
@@ -59,7 +59,7 @@ Her iki modelin doğruluğu (accuracy) ve hata analizi için **confusion matrix*
 - **Tahmin Süresi:** ≈ **0.000534399994648993 saniye**
 - **Doğruluk (Accuracy):** ≈ **%816**
 - **Confusion Matrix:**
-- *(Grafik olarak görselleştirildi)*
+  
   ![image](https://github.com/user-attachments/assets/af3b4cf2-fc57-49cc-b8a7-246432900eb9)
 
 
