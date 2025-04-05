@@ -94,6 +94,45 @@ print(f"Prediction time of the model -> {end_time_pred-start_time_pred} second \
 #calculate model accuracy
 print(f"Accuracy of the model -> {model.accuracy(x_test,y_test)} \n")
 
+#find TP, TN, FP, FN values
+TP = np.sum((y_test == 1) & (y_pred == 1))  # True Positives
+TN = np.sum((y_test == 0) & (y_pred == 0))  # True Negatives
+FP = np.sum((y_test == 0) & (y_pred == 1))  # False Positives
+FN = np.sum((y_test == 1) & (y_pred == 0))  # False Negatives
+
+#calculate Precision
+manual_precision = TP / (TP + FP) if (TP + FP) != 0 else 0
+print(f"Precision: {manual_precision}")
+
+#calculate Recall
+manual_recall = TP / (TP + FN) if (TP + FN) != 0 else 0
+print(f"Recall: {manual_recall}")
+
+#calculate F1 Score
+manual_f1 = 2 * (manual_precision * manual_recall) / (manual_precision + manual_recall) if (manual_precision + manual_recall) != 0 else 0
+print(f"F1 Score: {manual_f1}")
+
+#calculate Log Loss 
+z_test = np.dot(x_test, model.weights) + model.bias
+y_prob = 1 / (1 + np.exp(-z_test))
+
+epsilon = 1e-15
+y_prob = np.clip(y_prob, epsilon, 1 - epsilon)
+
+#calculate log loss per sample and average
+loss = -np.mean(y_test * np.log(y_prob) + (1 - y_test) * np.log(1 - y_prob))
+print(f"Manual Log Loss: {loss}")
+
+#show log loss values ​​on graph (for each sample)
+loss_values = -(y_test * np.log(y_prob) + (1 - y_test) * np.log(1 - y_prob))
+plt.figure(figsize=(8,5))
+plt.plot(loss_values, marker='o', linestyle='', alpha=0.6)
+plt.title("Sample-wise Log Loss Values", fontsize=15, fontweight="bold", fontfamily="Book Antiqua")
+plt.xlabel("Sample Index", fontsize=13, fontweight="bold", fontfamily="Book Antiqua")
+plt.ylabel("Log Loss", fontsize=13, fontweight="bold", fontfamily="Book Antiqua")
+plt.grid(True)
+plt.show()
+
 #compute confussion matrix
 matrix = confusion_matrix( y_pred=y_pred , y_true=y_test )
 print(f"-Confusion Matrix- \n {matrix}")
