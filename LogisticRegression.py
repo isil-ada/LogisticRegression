@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd 
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score,confusion_matrix
+from sklearn.metrics import accuracy_score,confusion_matrix,f1_score, precision_score, recall_score, log_loss
 from sklearn.preprocessing import StandardScaler
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -56,6 +56,38 @@ print(f"Prediction time of the model -> {end_time_pred-start_time_pred} second \
 #calculate model accuracy
 accuracy = accuracy_score(y_true=y_test,y_pred=y_pred)
 print(f"Accuracy of the model -> {accuracy} \n")
+
+#calculate precision
+precision = precision_score(y_true=y_test, y_pred=y_pred)
+print(f"Precision of the model -> {precision} \n")
+
+#calculate recall
+recall = recall_score(y_true=y_test, y_pred=y_pred)
+print(f"Recall of the model -> {recall} \n")
+
+#calculate F1 score
+f1 = f1_score(y_true=y_test, y_pred=y_pred)
+print(f"F1 Score of the model -> {f1} \n")
+
+#calculate log loss
+y_prob = model.predict_proba(x_test)  #probabilities are required for log loss
+loss = log_loss(y_true=y_test, y_pred=y_prob)
+print(f"Log Loss of the model -> {loss} \n")
+
+#calculate log loss values ​​for each sample
+epsilon = 1e-15
+y_prob = model.predict_proba(x_test)[:, 1]
+y_prob = np.clip(y_prob, epsilon, 1 - epsilon)
+loss_values = -(y_test * np.log(y_prob) + (1 - y_test) * np.log(1 - y_prob))
+
+#log loss graph
+plt.figure(figsize=(8,5))
+plt.plot(loss_values, marker='o', linestyle='', alpha=0.6)
+plt.title("Sample-wise Log Loss Values", fontsize=15, fontweight="bold", fontfamily="Book Antiqua")
+plt.xlabel("Sample Index", fontsize=13, fontweight="bold", fontfamily="Book Antiqua")
+plt.ylabel("Log Loss", fontsize=13, fontweight="bold", fontfamily="Book Antiqua")
+plt.grid(True)
+plt.show()
 
 #compute confussion matrix
 matrix = confusion_matrix( y_pred=y_pred , y_true=y_test )
